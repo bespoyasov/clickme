@@ -34,8 +34,12 @@ class AppState {
   }
 
   
-  get(field: string): any {
-    return this.state[field]
+  get(field: string): any
+  get(): IStateData
+  
+  get(field?) {
+    if (field) return this.state[field]
+    return this.state
   }
 
   set(field: string, value: any) {
