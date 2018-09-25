@@ -51,7 +51,7 @@ updateApp()
 const source = fromEvent(document, 'mousemove')
 
 const observable = source.pipe(
-  map((event:any) => ({x: event.x, y: event.y})))
+  map((event: MouseEvent) => ({x: event.x, y: event.y})))
 
 observable.subscribe(({x, y}) => {
   const left = state.get('left')
