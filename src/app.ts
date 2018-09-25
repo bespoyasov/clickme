@@ -10,7 +10,18 @@ import getRandomInRange from './utils/random'
 import inRange from './utils/inRange'
 
 import {fromEvent} from 'rxjs/observable/fromEvent'
-import {map} from 'rxjs/operators'
+import {map, filter} from 'rxjs/operators'
+
+
+type MouseCoords = {
+  x: number,
+  y: number,
+}
+
+type ButtonPosition = {
+  left: number,
+  top: number,
+}
 
 
 const button = getElement('#clickme')
@@ -24,7 +35,7 @@ const state = new AppState({
 })
 
 
-const getNewPosition = () => {
+const getNewPosition = (): ButtonPosition => {
   const {width, height} = getWindowSize()
 
   return {
@@ -33,9 +44,14 @@ const getNewPosition = () => {
   }
 }
 
+const shouldUpdateApp = ({x, y}: MouseCoords): boolean => {
+  const {top, left, widthRange, heightRange} = state.get()
+  return inRange(x, left, widthRange) 
+      && inRange(y, top, heightRange)
+}
+
 const updateApp = () => {
   const {left, top} = getNewPosition()
-
   state.update({ left, top })
 
   applyStyle(button, {
@@ -45,27 +61,18 @@ const updateApp = () => {
 }
 
 
-
-updateApp()
-
 const source = fromEvent(document, 'mousemove')
 
 const observable = source.pipe(
-  map((event: MouseEvent) => ({x: event.x, y: event.y})))
+  map((event: MouseEvent): MouseCoords => 
+    ({ x: event.x, y: event.y })),
+  filter(shouldUpdateApp))
 
-observable.subscribe(({x, y}) => {
-  const left = state.get('left')
-  const top = state.get('top')
+observable.subscribe(() => updateApp())
 
-  const widthRange = state.get('widthRange')
-  const heightRange = state.get('heightRange')
 
-  if (inRange(x, left, widthRange)
-    && inRange(y, top, heightRange)) {
-      updateApp()
-    }
-})
 
+updateApp()
 
 button.addEventListener('click', () => {
   button.innerHTML = 'А мышью слабо?'
