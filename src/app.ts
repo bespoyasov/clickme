@@ -1,10 +1,8 @@
 import AppState from './state'
 
-import {
-  applyStyle,
-  getElement,
-  getWindowSize,
-} from './dom'
+import applyStyle from './dom/applyStyle'
+import getElement from './dom/getElement'
+import getWindowSize from './dom/getWindowSize'
 
 import getRandomInRange from './utils/random'
 import inRange from './utils/inRange'
