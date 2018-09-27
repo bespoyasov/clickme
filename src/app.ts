@@ -44,8 +44,10 @@ const getNewPosition = (): ButtonPosition => {
 
 const shouldUpdateApp = ({x, y}: MouseCoords): boolean => {
   const {top, left, widthRange, heightRange} = state.get()
-  return inRange(x, left, widthRange) 
-      && inRange(y, top, heightRange)
+  const padding = 15
+
+  return inRange(x, left - padding, widthRange + padding) 
+      && inRange(y, top - padding, heightRange + padding)
 }
 
 const updateApp = () => {
