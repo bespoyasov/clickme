@@ -18,10 +18,10 @@ class AppState {
 
   constructor(data: IStateData) {
     this.state = {...data}
-    this._compute()
+    this._updateComputables()
   }
 
-  _compute() {
+  _updateComputables() {
     const {
       buttonHeight=0,
       buttonWidth=0,
@@ -48,7 +48,7 @@ class AppState {
 
   update(data: IStateData) {
     this.state = {...this.state, ...data}
-    this._compute()
+    this._updateComputables()
   }
 }
 
