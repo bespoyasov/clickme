@@ -2,4 +2,4 @@
 
 Silly old game implementation with RxJS and TypeScript.
 
-[Try it!](https://bespoyasov.ru/clickme/)
+[Try it yourself!](https://bespoyasov.ru/clickme/)
